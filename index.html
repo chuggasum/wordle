@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Pentaglyph – the daily five-letter word game</title>
+<meta name="description" content="Pentaglyph is a free daily word puzzle. Crack the hidden five-letter word in six guesses, then challenge your friends.">
+<meta name="theme-color" content="#f6efe0">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="canonical" href="https://example.com/">
+
+<!-- Social previews: replace example.com with your domain -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Pentaglyph">
+<meta property="og:title" content="Pentaglyph – can you crack today's word?">
+<meta property="og:description" content="One five-letter word. Six guesses. Free daily puzzle – challenge your friends.">
+<meta property="og:url" content="https://example.com/">
+<meta property="og:image" content="https://example.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://example.com/og.png">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="ads-off">
+<div class="page">
+
+  <aside class="side side-left" aria-label="Advertisement"><div class="ad-slot" data-slot="side"><span class="ad-label">Advertisement</span></div></aside>
+
+  <div class="app">
+    <header class="top">
+      <button class="icon-btn" id="btn-help" aria-label="How to play"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.6 2.2c-.7.4-1.1.9-1.1 1.8M12 17h.01"/></svg></button>
+      <div class="brand">
+        <h1 class="logo">Penta<span>glyph</span></h1>
+        <p class="mode" id="mode-label">Daily puzzle</p>
+      </div>
+      <div class="top-right">
+        <button class="icon-btn" id="btn-stats" aria-label="Stats and results"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V10M12 20V4M19 20v-7"/></svg></button>
+        <button class="icon-btn" id="btn-settings" aria-label="Settings"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg></button>
+      </div>
+    </header>
+
+    <div class="ad-slot ad-top" data-slot="top" aria-label="Advertisement"><span class="ad-label">Advertisement</span></div>
+
+    <main class="game">
+      <div id="board" class="board" role="grid" aria-label="Guess board"></div>
+      <div id="live" class="sr-only" aria-live="polite"></div>
+      <div id="keyboard" class="keyboard" aria-label="On-screen keyboard"></div>
+    </main>
+
+    <div class="ad-slot ad-bottom" data-slot="bottom" aria-label="Advertisement"><span class="ad-label">Advertisement</span></div>
+
+    <footer class="foot">
+      <button class="link" id="btn-challenge">Challenge a friend</button>
+      <span aria-hidden="true">·</span>
+      <a href="privacy.html">Privacy</a>
+      <span aria-hidden="true">·</span>
+      <button class="link" id="btn-cookies">Ad choices</button>
+    </footer>
+  </div>
+
+  <aside class="side side-right" aria-label="Advertisement"><div class="ad-slot" data-slot="side"><span class="ad-label">Advertisement</span></div></aside>
+</div>
+
+<div id="toasts" class="toasts" aria-hidden="true"></div>
+<canvas id="confetti" aria-hidden="true"></canvas>
+
+<!-- How to play -->
+<dialog id="dlg-help">
+  <form method="dialog"><button class="close" aria-label="Close">×</button></form>
+  <h2>How to play</h2>
+  <p>Find the hidden <strong>five-letter word</strong> in <strong>six guesses</strong>. After each guess the tiles show how close you were.</p>
+  <div class="ex">
+    <div class="row"><b class="t correct">C</b><b class="t">R</b><b class="t">A</b><b class="t">N</b><b class="t">E</b></div>
+    <p><strong>C</strong> is in the word and in the right spot.</p>
+    <div class="row"><b class="t">S</b><b class="t present">P</b><b class="t">I</b><b class="t">C</b><b class="t">Y</b></div>
+    <p><strong>P</strong> is in the word but in the wrong spot.</p>
+    <div class="row"><b class="t">B</b><b class="t">L</b><b class="t">U</b><b class="t absent">S</b><b class="t">H</b></div>
+    <p><strong>S</strong> is not in the word at all.</p>
+  </div>
+  <p class="small">A new daily puzzle appears at midnight your time. Finished early? Play unlimited practice rounds, or <button class="link" data-open="dlg-challenge">challenge a friend</button> with a word of your own.</p>
+</dialog>
+
+<!-- Stats / result -->
+<dialog id="dlg-stats">
+  <form method="dialog"><button class="close" aria-label="Close">×</button></form>
+  <h2 id="result-title">Your stats</h2>
+  <p id="result-sub" class="result-sub" hidden></p>
+  <div class="stats-grid">
+    <div><b id="st-played">0</b><span>Played</span></div>
+    <div><b id="st-win">0</b><span>Win %</span></div>
+    <div><b id="st-streak">0</b><span>Streak</span></div>
+    <div><b id="st-max">0</b><span>Best</span></div>
+  </div>
+  <h3>Guess distribution</h3>
+  <div id="dist" class="dist"></div>
+  <div id="result-actions" class="actions" hidden>
+    <button class="btn primary" id="btn-share">Share result</button>
+    <button class="btn" id="btn-story">Save story image</button>
+  </div>
+  <div class="actions">
+    <button class="btn" id="btn-practice">Play a practice round</button>
+    <button class="btn" data-open="dlg-challenge">Challenge a friend</button>
+  </div>
+  <p id="next-daily" class="small center" hidden>Next daily puzzle in <b id="countdown">--:--:--</b></p>
+  <div class="ad-slot ad-result" data-slot="result"><span class="ad-label">Advertisement</span></div>
+</dialog>
+
+<!-- Settings -->
+<dialog id="dlg-settings">
+  <form method="dialog"><button class="close" aria-label="Close">×</button></form>
+  <h2>Settings</h2>
+  <label class="set"><span><b>Hard mode</b><small>Revealed hints must be used in later guesses.</small></span><input type="checkbox" id="set-hard"></label>
+  <label class="set"><span><b>Colour-blind marks</b><small>Adds a symbol to correct and misplaced tiles.</small></span><input type="checkbox" id="set-marks"></label>
+  <label class="set"><span><b>Theme</b><small>Match your device or pick one.</small></span>
+    <select id="set-theme"><option value="auto">Auto</option><option value="light">Light</option><option value="dark">Dark</option></select></label>
+  <label class="set"><span><b>Reduce motion</b><small>Skip flips and confetti.</small></span><input type="checkbox" id="set-motion"></label>
+</dialog>
+
+<!-- Challenge -->
+<dialog id="dlg-challenge">
+  <form method="dialog"><button class="close" aria-label="Close">×</button></form>
+  <h2>Challenge a friend</h2>
+  <p>Pick any five-letter word. We'll make a link – your friend gets six guesses to crack it.</p>
+  <input id="challenge-word" class="word-input" maxlength="5" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="YOURS" aria-label="Your secret word">
+  <p id="challenge-msg" class="small" role="status"></p>
+  <div class="actions"><button class="btn primary" id="btn-challenge-go">Create link</button></div>
+</dialog>
+
+<!-- Consent banner -->
+<div id="consent" class="consent" role="dialog" aria-label="Cookie and ads choices" hidden>
+  <p>We show ads to keep Pentaglyph free. Ads may use cookies to personalise what you see. See our <a href="privacy.html">privacy policy</a>.</p>
+  <div class="consent-btns">
+    <button class="btn" id="consent-no">Non-personalised</button>
+    <button class="btn primary" id="consent-yes">Accept</button>
+  </div>
+</div>
+
+<script src="config.js"></script>
+<script src="words.js"></script>
+<script src="game.js"></script>
+<script src="ads.js"></script>
+</body>
+</html>
