@@ -1,0 +1,8 @@
+{
+  // Tells Cloudflare how to publish this project (read by the "wrangler" tool).
+  "name": "wordle",
+  "compatibility_date": "2026-10-19",
+  "assets": {
+    "directory": "./public"
+  }
+}
