@@ -1,7 +1,7 @@
 # Generates icon-192.png, icon-512.png, og.png (needs Pillow). Run: python tools/make-images.py
 from PIL import Image, ImageDraw, ImageFont
 import os
-root = os.path.join(os.path.dirname(__file__), '..')
+root = os.path.join(os.path.dirname(__file__), '..', 'public')
 PAPER, INK, TEAL, GOLD, GREY, RED = '#f6efe0', '#1d2433', '#12806f', '#f5a800', '#6b7280', '#e8503a'
 
 def font(size):
