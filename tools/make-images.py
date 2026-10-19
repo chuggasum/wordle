@@ -21,7 +21,7 @@ def icon(n):
     im = Image.new('RGB', (n, n), PAPER); d = ImageDraw.Draw(im)
     s = n * .22; gap = n * .035; total = 3 * s + 2 * gap; x0 = (n - total) / 2
     for i, c in enumerate((TEAL, GOLD, GREY)): tile(d, x0 + i * (s + gap), n * .22, s, c)
-    d.text((n / 2, n * .72), 'P5', font=font(int(n * .3)), fill=INK, anchor='mm')
+    d.text((n / 2, n * .72), 'BH', font=font(int(n * .3)), fill=INK, anchor='mm')
     im.save(os.path.join(root, f'icon-{n}.png'))
 
 def og():
@@ -29,13 +29,13 @@ def og():
     im = Image.new('RGB', (W, H), PAPER); d = ImageDraw.Draw(im)
     for y in range(0, H, 22):
         for x in range((y // 22 % 2) * 11, W, 22): d.ellipse([x, y, x + 3, y + 3], fill='#e6dfce')
-    f = font(120); w1 = d.textlength('Penta', font=f); w2 = d.textlength('glyph', font=f); x = (W - w1 - w2) / 2
-    d.text((x, 90), 'Penta', font=f, fill=INK); d.text((x + w1, 90), 'glyph', font=f, fill=RED)
+    f = font(120); w1 = d.textlength('Ben ', font=f); w2 = d.textlength('Hoffmann', font=f); x = (W - w1 - w2) / 2
+    d.text((x, 90), 'Ben ', font=f, fill=INK); d.text((x + w1, 90), 'Hoffmann', font=f, fill=RED)
     d.text((W / 2, 270), 'One word. Six guesses. Can you crack it?', font=font(40), fill=INK, anchor='mm')
     pat = [(TEAL, GOLD, GREY, GREY, GOLD), (GREY, TEAL, TEAL, GOLD, GREY), (TEAL, TEAL, TEAL, TEAL, TEAL)]
-    s, g = 90, 14; x0 = (W - (5 * s + 4 * g)) / 2
+    s, g = 80, 12; x0 = (W - (5 * s + 4 * g)) / 2
     for r, row in enumerate(pat):
-        for c, col in enumerate(row): tile(d, x0 + c * (s + g), 330 + r * (s + g), s, col)
+        for c, col in enumerate(row): tile(d, x0 + c * (s + g), 318 + r * (s + g), s, col)
     im.save(os.path.join(root, 'og.png'))
 
 icon(192); icon(512); og(); print('ok')

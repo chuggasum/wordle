@@ -1,4 +1,4 @@
-# Pentaglyph – before launch
+# Ben Hoffmann – before launch
 
 - [ ] **Domain:** buy a custom domain (AdSense is unlikely to approve a shared free subdomain), then replace `https://example.com` in `index.html` (canonical, og:*, twitter tags). Optionally set `siteUrl` in `config.js`.
 - [ ] **Launch date:** set `launchDate` in `config.js` to your launch day (it is currently 2026-10-19). That day becomes puzzle #1.

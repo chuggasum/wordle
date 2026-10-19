@@ -1,4 +1,4 @@
-/* Pentaglyph – ads + consent. Does nothing until enabled in config.js. */
+/* Ben Hoffmann – ads + consent. Does nothing until enabled in config.js. */
 (() => {
   'use strict';
   const A = (window.PENTA_CONFIG || {}).ads || {};

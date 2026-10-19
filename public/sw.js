@@ -1,5 +1,5 @@
 // Network-first service worker: always fresh when online, playable offline.
-const CACHE = 'pentaglyph-v1';
+const CACHE = 'benhoffmann-v1';
 const ASSETS = ['./', 'index.html', 'style.css', 'config.js', 'words.js', 'game.js', 'ads.js', 'icon.svg'];
 
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting())); });

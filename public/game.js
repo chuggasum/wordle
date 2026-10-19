@@ -1,4 +1,4 @@
-/* Pentaglyph – game logic. No dependencies. */
+/* Ben Hoffmann – game logic. No dependencies. */
 (() => {
   'use strict';
 
@@ -285,7 +285,7 @@
   /* ---------- share ---------- */
   const EMOJI = { correct: '🟩', present: '🟧', absent: '⬛' };
   const grid = () => game.guesses.map(g => score(g, game.answer).map(s => EMOJI[s]).join(''));
-  const label = () => game.mode === 'daily' ? `Pentaglyph #${game.day}` : game.mode === 'challenge' ? 'Pentaglyph challenge' : 'Pentaglyph practice';
+  const label = () => game.mode === 'daily' ? `Ben Hoffmann #${game.day}` : game.mode === 'challenge' ? 'Ben Hoffmann challenge' : 'Ben Hoffmann practice';
 
   function shareText() {
     const s = getStats();
@@ -324,9 +324,9 @@
     x.globalAlpha = 1;
     x.textAlign = 'center'; x.fillStyle = ink;
 
-    x.font = '900 120px Rockwell, "Roboto Slab", Georgia, serif';
-    const w1 = x.measureText('Penta').width, w2 = x.measureText('glyph').width, sx = W / 2 - (w1 + w2) / 2;
-    x.textAlign = 'left'; x.fillText('Penta', sx, 270); x.fillStyle = accent; x.fillText('glyph', sx + w1, 270);
+    x.font = '900 108px Rockwell, "Roboto Slab", Georgia, serif';
+    const w1 = x.measureText('Ben ').width, w2 = x.measureText('Hoffmann').width, sx = W / 2 - (w1 + w2) / 2;
+    x.textAlign = 'left'; x.fillText('Ben ', sx, 270); x.fillStyle = accent; x.fillText('Hoffmann', sx + w1, 270);
     x.textAlign = 'center'; x.fillStyle = ink; x.font = '700 40px system-ui, Arial, sans-serif';
     x.fillText((game.mode === 'daily' ? `DAILY PUZZLE  #${game.day}` : game.mode === 'challenge' ? 'FRIEND CHALLENGE' : 'PRACTICE ROUND'), W / 2, 345);
     x.fillRect(190, 380, W - 380, 8);
@@ -360,11 +360,11 @@
     const cv = storyCanvas();
     cv.toBlob(async blob => {
       if (!blob) return toast('Could not make image');
-      const file = new File([blob], 'pentaglyph.png', { type: 'image/png' });
+      const file = new File([blob], 'ben-hoffmann.png', { type: 'image/png' });
       if (navigator.canShare && navigator.canShare({ files: [file] })) {
         try { await navigator.share({ files: [file], text: shareText() }); return; } catch (e) { if (e.name === 'AbortError') return; }
       }
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'pentaglyph-story.png';
+      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'ben-hoffmann-story.png';
       document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
       toast('Image saved – post it to your story!');
     }, 'image/png');
@@ -441,7 +441,7 @@
     if (w.length !== COLS) { msg.textContent = 'Enter a five-letter word.'; return; }
     if (!VALID.has(w)) { msg.textContent = "That word isn't in our list – try another."; return; }
     const link = `${siteUrl()}?c=${encodeWord(w)}`;
-    const text = `I've hidden a five-letter word on Pentaglyph. Six guesses to crack it – can you? ${link}`;
+    const text = `I've hidden a five-letter word on Ben Hoffmann. Six guesses to crack it – can you? ${link}`;
     msg.textContent = 'Link ready – send it to a friend!';
     $('#btn-challenge-go').textContent = 'Share again';
     await shareOrCopy(text);

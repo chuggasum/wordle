@@ -1,4 +1,4 @@
-# Pentaglyph
+# Ben Hoffmann
 
 Static site – the `public/` folder is the whole website. No build step. Cloudflare Pages: build command empty, output directory `public`.
 
